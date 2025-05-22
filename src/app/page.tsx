@@ -1,103 +1,447 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import { motion } from 'framer-motion'
+import { Github, Linkedin, Mail, Download } from 'lucide-react'
+import { useRef } from 'react'
+import { Canvas, useFrame } from '@react-three/fiber'
+import { OrbitControls, Sphere, MeshDistortMaterial } from '@react-three/drei'
+import * as THREE from 'three'
+
+// Enhanced 3D Scene Components
+const AnimatedSphere = () => {
+  const meshRef = useRef<THREE.Mesh>(null)
+
+  useFrame((state) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.x = state.clock.elapsedTime * 0.2
+      meshRef.current.rotation.y = state.clock.elapsedTime * 0.3
+    }
+  })
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    <Sphere ref={meshRef} args={[1, 100, 200]} scale={2} position={[0, 0, 0]}>
+      <MeshDistortMaterial
+        color="#3b82f6"
+        attach="material"
+        distort={0.3}
+        speed={1.5}
+        roughness={0}
+        metalness={0.8}
+      />
+    </Sphere>
+  )
 }
+
+const FloatingCubes = () => {
+  const cubesRef = useRef<THREE.Group>(null)
+
+  useFrame((state) => {
+    if (cubesRef.current) {
+      cubesRef.current.rotation.y = state.clock.elapsedTime * 0.1
+      cubesRef.current.children.forEach((cube, i) => {
+        cube.position.y = Math.sin(state.clock.elapsedTime + i) * 0.5
+      })
+    }
+  })
+
+  return (
+    <group ref={cubesRef}>
+      {[...Array(8)].map((_, i) => (
+        <mesh
+          key={i}
+          position={[
+            Math.cos((i / 8) * Math.PI * 2) * 4,
+            0,
+            Math.sin((i / 8) * Math.PI * 2) * 4,
+          ]}
+        >
+          <boxGeometry args={[0.5, 0.5, 0.5]} />
+          <meshStandardMaterial color="#8b5cf6" />
+        </mesh>
+      ))}
+    </group>
+  )
+}
+
+const WireframePyramids = () => {
+  const pyramidsRef = useRef<THREE.Group>(null)
+
+  useFrame((state) => {
+    if (pyramidsRef.current) {
+      pyramidsRef.current.rotation.x = state.clock.elapsedTime * 0.05
+      pyramidsRef.current.rotation.z = state.clock.elapsedTime * 0.03
+      pyramidsRef.current.children.forEach((pyramid, i) => {
+        pyramid.rotation.y = state.clock.elapsedTime * 0.5 + i
+      })
+    }
+  })
+
+  return (
+    <group ref={pyramidsRef}>
+      {[...Array(6)].map((_, i) => (
+        <mesh
+          key={i}
+          position={[
+            Math.cos((i / 6) * Math.PI * 2) * 8,
+            Math.sin((i / 6) * Math.PI * 2) * 2,
+            Math.cos((i / 6) * Math.PI * 2) * 3,
+          ]}
+        >
+          <coneGeometry args={[0.8, 1.5, 4]} />
+          <meshBasicMaterial color="#10b981" wireframe />
+        </mesh>
+      ))}
+    </group>
+  )
+}
+
+const FloatingToruses = () => {
+  const torusesRef = useRef<THREE.Group>(null)
+
+  useFrame((state) => {
+    if (torusesRef.current) {
+      torusesRef.current.children.forEach((torus, i) => {
+        torus.rotation.x = state.clock.elapsedTime * 0.3 + i
+        torus.rotation.y = state.clock.elapsedTime * 0.2 + i
+        torus.position.y = Math.sin(state.clock.elapsedTime * 0.5 + i * 2) * 1
+      })
+    }
+  })
+
+  return (
+    <group ref={torusesRef}>
+      {[...Array(4)].map((_, i) => (
+        <mesh
+          key={i}
+          position={[
+            Math.cos((i / 4) * Math.PI * 2) * 6,
+            0,
+            Math.sin((i / 4) * Math.PI * 2) * 6,
+          ]}
+        >
+          <torusGeometry args={[0.6, 0.2, 16, 100]} />
+          <meshStandardMaterial color="#f59e0b" />
+        </mesh>
+      ))}
+    </group>
+  )
+}
+
+const ParticleField = () => {
+  const particlesRef = useRef<THREE.Points>(null)
+  
+  const particleCount = 200
+  const positions = new Float32Array(particleCount * 3)
+  
+  for (let i = 0; i < particleCount; i++) {
+    positions[i * 3] = (Math.random() - 0.5) * 20
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 20
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 20
+  }
+
+  useFrame((state) => {
+    if (particlesRef.current) {
+      particlesRef.current.rotation.y = state.clock.elapsedTime * 0.02
+      particlesRef.current.rotation.x = state.clock.elapsedTime * 0.01
+    }
+  })
+
+  return (
+    <points ref={particlesRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={particleCount}
+          array={positions}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <pointsMaterial color="#60a5fa" size={0.05} sizeAttenuation transparent opacity={0.6} />
+    </points>
+  )
+}
+
+const AnimatedRings = () => {
+  const ringsRef = useRef<THREE.Group>(null)
+
+  useFrame((state) => {
+    if (ringsRef.current) {
+      ringsRef.current.children.forEach((ring, i) => {
+        ring.rotation.z = state.clock.elapsedTime * (0.5 + i * 0.2)
+        ring.rotation.x = state.clock.elapsedTime * 0.1
+      })
+    }
+  })
+
+  return (
+    <group ref={ringsRef}>
+      {[...Array(3)].map((_, i) => (
+        <mesh
+          key={i}
+          position={[0, 0, 0]}
+          scale={2 + i * 0.5}
+        >
+          <torusGeometry args={[2, 0.05, 16, 100]} />
+          <meshBasicMaterial 
+            color={i === 0 ? "#ef4444" : i === 1 ? "#22c55e" : "#a855f7"} 
+            transparent 
+            opacity={0.3}
+          />
+        </mesh>
+      ))}
+    </group>
+  )
+}
+
+const FloatingOctahedrons = () => {
+  const octahedronsRef = useRef<THREE.Group>(null)
+
+  useFrame((state) => {
+    if (octahedronsRef.current) {
+      octahedronsRef.current.rotation.y = -state.clock.elapsedTime * 0.08
+      octahedronsRef.current.children.forEach((oct, i) => {
+        oct.rotation.x = state.clock.elapsedTime * 0.4 + i
+        oct.rotation.y = state.clock.elapsedTime * 0.3 + i
+        oct.position.y = Math.cos(state.clock.elapsedTime * 0.7 + i * 1.5) * 0.8
+      })
+    }
+  })
+
+  return (
+    <group ref={octahedronsRef}>
+      {[...Array(5)].map((_, i) => (
+        <mesh
+          key={i}
+          position={[
+            Math.cos((i / 5) * Math.PI * 2) * 10,
+            Math.sin((i / 5) * Math.PI * 2) * 1,
+            Math.sin((i / 5) * Math.PI * 2) * 10,
+          ]}
+          scale={0.8}
+        >
+          <octahedronGeometry args={[0.7]} />
+          <meshStandardMaterial color="#ec4899" wireframe />
+        </mesh>
+      ))}
+    </group>
+  )
+}
+
+const Scene3D = ({ className = '' }: { className?: string }) => {
+  return (
+    <div className={`w-full h-full ${className}`}>
+      <Canvas
+        camera={{ position: [0, 0, 12], fov: 60 }}
+        gl={{ antialias: true, alpha: true }}
+      >
+        {/* Enhanced Lighting */}
+        <ambientLight intensity={0.3} />
+        <pointLight position={[10, 10, 10]} intensity={1} color="#3b82f6" />
+        <pointLight position={[-10, -10, -10]} intensity={0.5} color="#8b5cf6" />
+        <pointLight position={[0, 10, -10]} intensity={0.7} color="#10b981" />
+        <spotLight position={[15, 15, 15]} angle={0.3} intensity={0.8} color="#f59e0b" />
+        
+        {/* All 3D Elements */}
+        <AnimatedSphere />
+        <FloatingCubes />
+        <WireframePyramids />
+        <FloatingToruses />
+        <ParticleField />
+        <AnimatedRings />
+        <FloatingOctahedrons />
+        
+        <OrbitControls
+          enableZoom={false}
+          enablePan={false}
+          autoRotate
+          autoRotateSpeed={0.3}
+          maxPolarAngle={Math.PI / 2}
+          minPolarAngle={Math.PI / 2}
+        />
+      </Canvas>
+    </div>
+  )
+}
+
+const HomePage = () => {
+  const socialLinks = [
+    { icon: Github, href: 'https://github.com/yourusername', label: 'GitHub' },
+    { icon: Linkedin, href: 'https://linkedin.com/in/yourusername', label: 'LinkedIn' },
+    { icon: Mail, href: 'mailto:your.email@example.com', label: 'Email' },
+  ]
+
+  return (
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Background 3D Scene */}
+      <div className="absolute inset-0 opacity-30">
+        <Scene3D />
+      </div>
+
+      <div className="relative z-10 pt-20 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center min-h-screen">
+            {/* Left Content */}
+            <motion.div
+              initial={{ opacity: 0, x: -100 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="space-y-8"
+            >
+              <div className="space-y-4">
+                <motion.h1
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.6 }}
+                  className="text-5xl lg:text-7xl font-bold"
+                >
+                  Hello, I'm{' '}
+                  <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                    Your Name
+                  </span>
+                </motion.h1>
+                
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, duration: 0.6 }}
+                  className="text-xl lg:text-2xl text-gray-300"
+                >
+                  Creative Developer & Photographer
+                </motion.p>
+              </div>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.6 }}
+                className="text-lg text-gray-400 leading-relaxed max-w-lg"
+              >
+                I create beautiful digital experiences and capture moments through my lens. 
+                Passionate about blending technology with artistry to tell compelling stories.
+              </motion.p>
+
+              {/* Social Links */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8, duration: 0.6 }}
+                className="flex items-center space-x-6"
+              >
+                {socialLinks.map((link, index) => {
+                  const Icon = link.icon
+                  return (
+                    <motion.a
+                      key={link.label}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="p-3 glass-effect hover:glow-effect transition-all duration-300"
+                      aria-label={link.label}
+                    >
+                      <Icon size={24} />
+                    </motion.a>
+                  )
+                })}
+              </motion.div>
+
+              {/* CTA Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1, duration: 0.6 }}
+                className="flex flex-col sm:flex-row gap-4"
+              >
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg font-medium hover:from-blue-600 hover:to-purple-600 transition-all duration-300 glow-effect"
+                >
+                  View My Work
+                </motion.button>
+                
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-8 py-3 glass-effect hover:glow-effect transition-all duration-300 flex items-center justify-center space-x-2"
+                >
+                  <Download size={20} />
+                  <span>Download Resume</span>
+                </motion.button>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Content - Skills/Stats */}
+            <motion.div
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="space-y-8"
+            >
+              <div className="glass-effect p-8 rounded-2xl">
+                <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  Skills & Expertise
+                </h2>
+                
+                <div className="space-y-6">
+                  {[
+                    { skill: 'Frontend Development', level: 90 },
+                    { skill: 'Photography', level: 85 },
+                    { skill: 'UI/UX Design', level: 80 },
+                    { skill: '3D Modeling', level: 75 },
+                  ].map((item, index) => (
+                    <div key={item.skill} className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>{item.skill}</span>
+                        <span>{item.level}%</span>
+                      </div>
+                      <div className="w-full bg-gray-700 rounded-full h-2">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          animate={{ width: `${item.level}%` }}
+                          transition={{ delay: 1.2 + index * 0.2, duration: 1 }}
+                          className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Stats */}
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { number: '50+', label: 'Projects Completed' },
+                  { number: '100+', label: 'Photos Captured' },
+                  { number: '3+', label: 'Years Experience' },
+                  { number: '25+', label: 'Happy Clients' },
+                ].map((stat, index) => (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.4 + index * 0.1, duration: 0.6 }}
+                    className="glass-effect p-6 rounded-xl text-center"
+                  >
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 1.6 + index * 0.1, duration: 0.5 }}
+                      className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+                    >
+                      {stat.number}
+                    </motion.div>
+                    <div className="text-sm text-gray-400 mt-1">{stat.label}</div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default HomePage

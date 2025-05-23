@@ -2,7 +2,7 @@
 
 import { useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls, Sphere, MeshDistortMaterial, Text } from '@react-three/drei'
+import { OrbitControls, Sphere, MeshDistortMaterial } from '@react-three/drei'
 import * as THREE from 'three'
 
 // Main animated sphere
@@ -155,8 +155,7 @@ const ParticleField = () => {
         <bufferAttribute
           attach="attributes-position"
           count={particleCount}
-          array={positions}
-          itemSize={3}
+          args={[positions, 3]}
         />
       </bufferGeometry>
       <pointsMaterial color="#60a5fa" size={0.05} sizeAttenuation transparent opacity={0.6} />

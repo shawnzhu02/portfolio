@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Github, Linkedin, Mail, Download, Camera, FolderOpen } from 'lucide-react'
+import { Github, Linkedin, Mail, Camera, FolderOpen } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, Sphere, MeshDistortMaterial } from '@react-three/drei'
@@ -153,8 +153,7 @@ const ParticleField = () => {
         <bufferAttribute
           attach="attributes-position"
           count={particleCount}
-          array={positions}
-          itemSize={3}
+          args={[positions, 3]}
         />
       </bufferGeometry>
       <pointsMaterial color="#60a5fa" size={0.05} sizeAttenuation transparent opacity={0.6} />
@@ -234,7 +233,6 @@ const TypewriterText = ({ texts, speed = 80, pauseDuration = 1500 }: { texts: st
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
-  const lastUpdateTime = useRef(0)
 
   // Use a simple interval approach instead of useFrame
   useEffect(() => {
@@ -402,8 +400,7 @@ const HomePage = () => {
                 transition={{ delay: 0.6, duration: 0.6 }}
                 className="text-lg text-gray-400 leading-relaxed max-w-lg"
               >
-                I'm a little bit of everything
-                
+                I&rsquo;m a little bit of everything    
               </motion.p>
 
               {/* Social Links */}
@@ -413,7 +410,7 @@ const HomePage = () => {
                 transition={{ delay: 0.8, duration: 0.6 }}
                 className="flex items-center space-x-6"
               >
-                {socialLinks.map((link, index) => {
+                {socialLinks.map((link) => {
                   const Icon = link.icon
                   return (
                     <motion.a

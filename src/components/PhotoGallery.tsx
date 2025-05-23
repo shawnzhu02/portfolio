@@ -11,7 +11,7 @@ interface PhotoGalleryProps {
   category: string
 }
 
-const PhotoGallery: React.FC<PhotoGalleryProps> = ({ photos, category }) => {
+const PhotoGallery: React.FC<PhotoGalleryProps> = ({ photos }) => {
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [liked, setLiked] = useState<Set<number>>(new Set())

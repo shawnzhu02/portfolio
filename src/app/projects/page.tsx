@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Filter, ExternalLink, Github, Star } from 'lucide-react'
+import { Filter, ExternalLink, Star } from 'lucide-react'
 import Image from 'next/image'
 
 // Project data (inline to avoid import issues)
@@ -132,7 +132,7 @@ const projects: Project[] = [
     title: "National American Rocketry Challenge Marketing Submission",
     description: "From Crash to Triumph: Conquering the Skies at NARC",
     image: "/media/banners/13.png",
-    tags: ["Video Editing", "Filming"],
+    tags: ["Video Editing", "Filming", "Writing"],
     liveUrl: "https://www.youtube.com/watch?v=ucb6-6Au4u8",
     featured: true
   },

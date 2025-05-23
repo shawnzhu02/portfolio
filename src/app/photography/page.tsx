@@ -138,7 +138,7 @@ const PhotographyPage = () => {
   }
 
   return (
-    <div className="min-h-screen pt-24 px-6">
+    <div className="min-h-screen pt-36 px-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -157,8 +157,7 @@ const PhotographyPage = () => {
             </h1>
           </div>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            Capturing moments, emotions, and stories through the lens. 
-            Each photograph tells a unique story waiting to be discovered.
+            Fun pics.
           </p>
         </motion.div>
 

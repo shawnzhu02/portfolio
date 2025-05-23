@@ -1,10 +1,11 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Github, Linkedin, Mail, Download } from 'lucide-react'
-import { useRef } from 'react'
+import { Github, Linkedin, Mail, Download, Camera, FolderOpen } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, Sphere, MeshDistortMaterial } from '@react-three/drei'
+import Link from 'next/link';
 import * as THREE from 'three'
 
 // Enhanced 3D Scene Components
@@ -227,6 +228,61 @@ const FloatingOctahedrons = () => {
   )
 }
 
+const TypewriterText = ({ texts, speed = 80, pauseDuration = 1500 }: { texts: string[], speed?: number, pauseDuration?: number }) => {
+  const [displayText, setDisplayText] = useState('')
+  const [currentTextIndex, setCurrentTextIndex] = useState(0)
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [isPaused, setIsPaused] = useState(false)
+  const lastUpdateTime = useRef(0)
+
+  // Use a simple interval approach instead of useFrame
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const currentText = texts[currentTextIndex]
+      
+      if (isPaused) {
+        setIsPaused(false)
+        setIsDeleting(true)
+        return
+      }
+
+      if (!isDeleting && currentIndex < currentText.length) {
+        // Typing
+        setDisplayText(prev => prev + currentText[currentIndex])
+        setCurrentIndex(prev => prev + 1)
+      } else if (!isDeleting && currentIndex === currentText.length) {
+        // Pause before deleting
+        setIsPaused(true)
+        setTimeout(() => {}, pauseDuration)
+      } else if (isDeleting && displayText.length > 0) {
+        // Deleting
+        setDisplayText(prev => prev.slice(0, -1))
+      } else if (isDeleting && displayText.length === 0) {
+        // Move to next text
+        setIsDeleting(false)
+        setCurrentIndex(0)
+        setCurrentTextIndex(prev => (prev + 1) % texts.length)
+      }
+    }, isDeleting ? speed / 2 : (isPaused ? pauseDuration : speed))
+
+    return () => clearInterval(interval)
+  }, [currentIndex, currentTextIndex, isDeleting, isPaused, displayText.length, texts, speed, pauseDuration])
+
+  return (
+    <span>
+      {displayText}
+      <motion.span
+        animate={{ opacity: [0, 1, 0] }}
+        transition={{ duration: 0.8, repeat: Infinity }}
+        className="ml-1 text-blue-400"
+      >
+        |
+      </motion.span>
+    </span>
+  )
+}
+
 const Scene3D = ({ className = '' }: { className?: string }) => {
   return (
     <div className={`w-full h-full ${className}`}>
@@ -263,11 +319,12 @@ const Scene3D = ({ className = '' }: { className?: string }) => {
   )
 }
 
+
 const HomePage = () => {
   const socialLinks = [
-    { icon: Github, href: 'https://github.com/yourusername', label: 'GitHub' },
-    { icon: Linkedin, href: 'https://linkedin.com/in/yourusername', label: 'LinkedIn' },
-    { icon: Mail, href: 'mailto:your.email@example.com', label: 'Email' },
+    { icon: Github, href: 'https://github.com/shawnzhu02', label: 'GitHub' },
+    { icon: Linkedin, href: 'https://linkedin.com/in/shawnzhu02', label: 'LinkedIn' },
+    { icon: Mail, href: 'mailto:shawnzhu02@gmail.com', label: 'Email' },
   ]
 
   return (
@@ -281,6 +338,7 @@ const HomePage = () => {
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center min-h-screen">
             {/* Left Content */}
+            
             <motion.div
               initial={{ opacity: 0, x: -100 }}
               animate={{ opacity: 1, x: 0 }}
@@ -294,20 +352,48 @@ const HomePage = () => {
                   transition={{ delay: 0.2, duration: 0.6 }}
                   className="text-5xl lg:text-7xl font-bold"
                 >
-                  Hello, I'm{' '}
+                  
                   <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                    Your Name
+                    Shawn Zhu
                   </span>
+
                 </motion.h1>
                 
-                <motion.p
+
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4, duration: 0.6 }}
-                  className="text-xl lg:text-2xl text-gray-300"
+                  transition={{ delay: 0.3, duration: 0.3 }}
+                  className="text-xl lg:text-2xl text-gray-300 min-h-[2rem] flex items-center"
                 >
-                  Creative Developer & Photographer
-                </motion.p>
+                  <TypewriterText texts={[
+                    'Youth Advocate',
+                    'Web Developer',
+                    'Videographer',
+                    'YouTuber',
+                    'Golfer',
+                    'Bboy',
+                    'Programmer',
+                    'Researcher',
+                    'Trumpeter',
+                    'Planespotter',
+                    'AI Enthusiast',
+                    'Gym Rat',
+                    'Game Dev',
+                    'Video Editor',
+                    'Animator',
+                    'Orator',
+                    'CEO',
+                    'Gamer',
+                    'Artist',
+
+
+
+
+
+
+                    ]} speed={50} pauseDuration={1000} />
+                </motion.div>
               </div>
 
               <motion.p
@@ -316,8 +402,8 @@ const HomePage = () => {
                 transition={{ delay: 0.6, duration: 0.6 }}
                 className="text-lg text-gray-400 leading-relaxed max-w-lg"
               >
-                I create beautiful digital experiences and capture moments through my lens. 
-                Passionate about blending technology with artistry to tell compelling stories.
+                I'm a little bit of everything
+                
               </motion.p>
 
               {/* Social Links */}
@@ -337,7 +423,7 @@ const HomePage = () => {
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.1, y: -2 }}
                       whileTap={{ scale: 0.95 }}
-                      className="p-3 glass-effect hover:glow-effect transition-all duration-300"
+                      className="p-3 glass-effect hover:glow-effect transition-all duration-0"
                       aria-label={link.label}
                     >
                       <Icon size={24} />
@@ -353,21 +439,24 @@ const HomePage = () => {
                 transition={{ delay: 1, duration: 0.6 }}
                 className="flex flex-col sm:flex-row gap-4"
               >
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg font-medium hover:from-blue-600 hover:to-purple-600 transition-all duration-300 glow-effect"
-                >
-                  View My Work
-                </motion.button>
+                <Link href="/projects">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-8 py-3 bg-gradient-to-r flex items-center justify-center space-x-2 from-blue-500 to-purple-500 rounded-lg font-medium hover:from-blue-600 hover:to-purple-600 transition-all duration-0 glow-effect"
+                  >
+                    <FolderOpen size={20} />
+                    <span>View My Projects</span>
+                  </motion.button>
+                </Link>
                 
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-8 py-3 glass-effect hover:glow-effect transition-all duration-300 flex items-center justify-center space-x-2"
+                  className="px-8 py-3 glass-effect hover:glow-effect transition-all duration-0 flex items-center justify-center space-x-2"
                 >
-                  <Download size={20} />
-                  <span>Download Resume</span>
+                  <Camera size={20} />
+                  <span>Check out my photos</span>
                 </motion.button>
               </motion.div>
             </motion.div>
@@ -379,43 +468,66 @@ const HomePage = () => {
               transition={{ delay: 0.4, duration: 0.8 }}
               className="space-y-8"
             >
-              <div className="glass-effect p-8 rounded-2xl">
-                <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                  Skills & Expertise
-                </h2>
+              <div className="glass-effect p-8 rounded-2xl overflow-hidden">
+                <motion.h2 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6, duration: 0.6 }}
+                  className="text-2xl font-bold mb-8 text-center bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+                >
+                  Worked with:
+                </motion.h2>
                 
-                <div className="space-y-6">
-                  {[
-                    { skill: 'Frontend Development', level: 90 },
-                    { skill: 'Photography', level: 85 },
-                    { skill: 'UI/UX Design', level: 80 },
-                    { skill: '3D Modeling', level: 75 },
-                  ].map((item, index) => (
-                    <div key={item.skill} className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span>{item.skill}</span>
-                        <span>{item.level}%</span>
-                      </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2">
+                <motion.div
+                  animate={{ x: [0, (-128*6)] }}
+                  transition={{
+                    duration: 20,
+                    repeat: Infinity,
+                    ease: "linear",
+                    repeatType: "loop"
+                  }}
+                  className="flex space-x-8 items-center"
+                >
+                  {[...Array(6)].map((_, setIndex) => (
+                    <div key={setIndex} className="flex space-x-8 items-center">
+                      {[
+                        { name: 'Your Company 1', logo: '/logos/UN.jpg' },
+                        { name: 'Your Company 1', logo: '/logos/bkmf.png' },
+                        { name: 'Your Company 1', logo: '/logos/LPI.png' },
+                        { name: 'Your Company 1', logo: '/logos/upenn.png' },
+                        { name: 'Your Company 1', logo: '/logos/kidsforsdgs.jpeg' },
+                        { name: 'Your Company 1', logo: '/logos/ncfl.jpg' },
+
+
+                        // Add your actual companies here
+                      ].map((company, index) => (
                         <motion.div
-                          initial={{ width: 0 }}
-                          animate={{ width: `${item.level}%` }}
-                          transition={{ delay: 1.2 + index * 0.2, duration: 1 }}
-                          className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full"
+                          key={`${setIndex}-${company}`}
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: 0.8 + index * 0.1, duration: 0.6 }}
+                          className="flex-shrink-0 w-24 h-24 bg-white/5 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/10"
+                        >
+                        <img 
+                          src={company.logo}
+                          alt={`${company.name} logo`}
+                          className="w-full h-full object-contain filter rounded-lg group-hover:grayscale-0 transition-all duration-300"
                         />
-                      </div>
+                            
+                        </motion.div>
+                      ))}
                     </div>
                   ))}
-                </div>
+                </motion.div>
               </div>
 
               {/* Stats */}
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { number: '50+', label: 'Projects Completed' },
-                  { number: '100+', label: 'Photos Captured' },
-                  { number: '3+', label: 'Years Experience' },
-                  { number: '25+', label: 'Happy Clients' },
+                  { number: '17', label: 'Years on Earth' },
+                  { number: 'Many hours', label: 'of listening to Lofi-ATC' },
+                  { number: '2', label: 'Golf Clubs Broken' },
+                  { number: 'Too many to count', label: 'Bowls of Udon I ate' },
                 ].map((stat, index) => (
                   <motion.div
                     key={stat.label}

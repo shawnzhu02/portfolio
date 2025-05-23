@@ -13,71 +13,129 @@ interface Project {
   image: string
   tags: string[]
   liveUrl?: string
-  githubUrl?: string
   featured: boolean
 }
 
 const projects: Project[] = [
   {
     id: 1,
-    title: "E-Commerce Platform",
-    description: "A full-stack e-commerce platform built with Next.js, TypeScript, and Stripe integration. Features include user authentication, product management, and secure payments.",
-    image: "/api/placeholder/600/400",
-    tags: ["Next.js", "TypeScript", "Stripe", "PostgreSQL"],
-    liveUrl: "https://example.com",
-    githubUrl: "https://github.com/username/project",
+    title: "NextGenNav",
+    description: "NextGenNav aims to create youth literacy of AI ethics and tech through various programs.",
+    image: "/media/banners/1.png",
+    tags: ["Advocacy", "AI", "SDGs"],
+    liveUrl: "https://nextgennav.org",
     featured: true
   },
   {
     id: 2,
-    title: "Photography Portfolio",
-    description: "A stunning portfolio website showcasing photography work with advanced filtering, lightbox galleries, and smooth animations.",
-    image: "/api/placeholder/600/400",
-    tags: ["React", "Framer Motion", "Tailwind CSS", "Vercel"],
-    liveUrl: "https://example.com",
-    githubUrl: "https://github.com/username/project",
+    title: "FII",
+    description: "FII aims to empower youth to create future impact through technology and research.",
+    image: "/media/banners/3.png",
+    tags: ["AI", "WebDev", "Advocacy", "Business"],
+    liveUrl: "https://fiiai.org",
+    featured: true
+  },
+  {
+    id: 10,
+    title: "StakLabs",
+    description: "Staklabs delivers custom digital webdev solutions that help businesses thrive in today's competitive landscape.",
+    image: "/media/banners/10.png",
+    tags: ["WebDev", "Business"],
+    liveUrl: "https://www.staklabs.ai",
     featured: true
   },
   {
     id: 3,
-    title: "Task Management App",
-    description: "A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.",
-    image: "/api/placeholder/600/400",
-    tags: ["React", "Socket.io", "Node.js", "MongoDB"],
-    liveUrl: "https://example.com",
-    githubUrl: "https://github.com/username/project",
-    featured: false
-  },
-  {
-    id: 4,
-    title: "Weather Dashboard",
-    description: "A responsive weather dashboard that displays current conditions, forecasts, and historical data with beautiful data visualizations.",
-    image: "/api/placeholder/600/400",
-    tags: ["Vue.js", "Chart.js", "OpenWeather API", "Netlify"],
-    liveUrl: "https://example.com",
-    githubUrl: "https://github.com/username/project",
-    featured: false
-  },
-  {
-    id: 5,
-    title: "3D Product Configurator",
-    description: "An interactive 3D product configurator allowing customers to customize products in real-time with Three.js and React.",
-    image: "/api/placeholder/600/400",
-    tags: ["Three.js", "React", "TypeScript", "WebGL"],
-    liveUrl: "https://example.com",
-    githubUrl: "https://github.com/username/project",
+    title: "Ban Ki Moon Foundation Fundraising",
+    description: "The BKMF fosters leadership for the implementation of the Sustainable Development Goals and the Paris Climate Agreement. Fundraising $2500 for the Accelerator Fund for initiatives in Africa.",
+    image: "/media/banners/5.png",
+    tags: ["Advocacy", "SDGs"],
+    liveUrl: "https://secure.qgiv.com/for/shawnzhu",
     featured: true
   },
   {
+    id: 4,
+    title: "PLATO Ethics Case",
+    description: "PLATO nurtures young people’s curiosity, critical thinking, and desire to explore big questions, through philosophy and ethics programs. Case written on the ethics of data collection.",
+    image: "/media/banners/6.png",
+    tags: ["AI", "Writing"],
+    liveUrl: "https://www.plato-philosophy.org/wp-content/uploads/2024-Ethics-Data-Collection.pdf",
+    featured: true
+  },
+  {
+    id: 5,
+    title: "Junior Breakthrough Challenge Video",
+    description: "The Breakthrough Junior Challenge has participants create a short video of two minutes max to explain a big idea in a scientific field. Won Top 10% with a video on Fractal Dimensions.",
+    image: "/media/banners/2.png",
+    tags: ["Video Editing", "Math"],
+    liveUrl: "https://youtube.com",
+    featured: true
+  },
+  
+  {
     id: 6,
-    title: "AI Chat Interface",
-    description: "A modern chat interface for AI assistants with message streaming, code syntax highlighting, and conversation history.",
-    image: "/api/placeholder/600/400",
-    tags: ["Next.js", "OpenAI API", "Tailwind CSS", "Vercel"],
-    liveUrl: "https://example.com",
-    githubUrl: "https://github.com/username/project",
-    featured: false
-  }
+    title: "YouTube",
+    description: "Splatoon Gaming Channel",
+    image: "/media/banners/4.png",
+    tags: ["Video Editing", "Filming", "Writing"],
+    liveUrl: "https://youtube.com/@veryepic2",
+    featured: true
+  },
+
+  {
+    id: 7,
+    title: "Blorb Saga",
+    description: "Scratch-based web game. Turn based RPG.",
+    image: "/media/banners/7.png",
+    tags: ["Game Dev", ],
+    liveUrl: "https://turbowarp.org/553882131",
+    featured: true
+  },
+  {
+    id: 8,
+    title: "Mario & Luigi Superstar Saga",
+    description: "Scratch-based web game. Turn based RPG.",
+    image: "/media/banners/8.png",
+    tags: ["Game Dev", ],
+    liveUrl: "https://turbowarp.org/527893902",
+    featured: true
+  },
+  {
+    id: 9,
+    title: "The Journey Of A Wizard",
+    description: "TSA Digital Video Production Regional Winner",
+    image: "/media/banners/9.png",
+    tags: ["Video Editing", "Filming", "Writing" ],
+    liveUrl: "https://www.youtube.com/watch?v=IM9ijLMnpEw",
+    featured: true
+  },
+  {
+    id: 11,
+    title: "Last Drink",
+    description: "TSA On Demand Video 2024",
+    image: "/media/banners/11.png",
+    tags: ["Video Editing", "Filming", "Writing" ],
+    liveUrl: "https://drive.google.com/drive/u/2/folders/1P_Y_ha9nj-2UNRUkP3YFUIxAxS3yZIUt",
+    featured: true
+  },
+  {
+    id: 12,
+    title: "Vlog in Asia",
+    description: "Fun vlog",
+    image: "/media/banners/12.png",
+    tags: ["Video Editing", "Filming"],
+    liveUrl: "https://drive.google.com/file/d/1B79t9ra0OC25OT3gms-CRfPlX_mQCgtI/view?usp=sharing",
+    featured: true
+  },
+  {
+    id: 13,
+    title: "National American Rocketry Challenge Marketing Submission",
+    description: "From Crash to Triumph: Conquering the Skies at NARC",
+    image: "/media/banners/13.png",
+    tags: ["Video Editing", "Filming"],
+    liveUrl: "https://www.youtube.com/watch?v=ucb6-6Au4u8",
+    featured: true
+  },
 ]
 
 // ProjectCard component (inline)
@@ -95,7 +153,6 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
           <div className="absolute top-4 right-4 z-10">
             <div className="bg-gradient-to-r from-yellow-400 to-orange-400 text-black px-3 py-1 rounded-full text-xs font-medium flex items-center space-x-1">
               <Star size={12} fill="currentColor" />
-              <span>Featured</span>
             </div>
           </div>
         )}
@@ -123,19 +180,6 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
                 aria-label="View Live Project"
               >
                 <ExternalLink size={20} />
-              </motion.a>
-            )}
-            {project.githubUrl && (
-              <motion.a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className="p-3 bg-gray-700 rounded-full hover:bg-gray-600 transition-colors"
-                aria-label="View GitHub Repository"
-              >
-                <Github size={20} />
               </motion.a>
             )}
           </div>
@@ -178,18 +222,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
                   className="text-blue-400 hover:text-blue-300 transition-colors flex items-center space-x-1 text-sm"
                 >
                   <ExternalLink size={16} />
-                  <span>Live Demo</span>
-                </a>
-              )}
-              {project.githubUrl && (
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-gray-300 transition-colors flex items-center space-x-1 text-sm"
-                >
-                  <Github size={16} />
-                  <span>Code</span>
+                  <span>See more</span>
                 </a>
               )}
             </div>
@@ -217,7 +250,7 @@ const ProjectsPage = () => {
   const regularProjects = filteredProjects.filter(project => !project.featured)
 
   return (
-    <div className="min-h-screen pt-24 px-6">
+    <div className="min-h-screen pt-36 px-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -233,8 +266,7 @@ const ProjectsPage = () => {
             </span>
           </h1>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            A collection of projects showcasing my skills in web development, 
-            design, and creative problem-solving.
+            All the cool stuff I make and do. Still developing...
           </p>
         </motion.div>
 
@@ -248,7 +280,7 @@ const ProjectsPage = () => {
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
             <div className="flex items-center space-x-4">
               <Filter size={20} className="text-gray-400" />
-              <span className="text-gray-400">Filter by technology:</span>
+              <span className="text-gray-400">Filter by category:</span>
             </div>
             
             {/* Desktop Filter */}

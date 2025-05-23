@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, ChevronLeft, ChevronRight, Download, Heart } from 'lucide-react'
 import Image from 'next/image'
-import { Photo } from '@/data/photos'
+import { Photo } from '../data/photos'
 
 interface PhotoGalleryProps {
   photos: Photo[]
